@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<meta name="generator" content="BBEdit 11.5" />
+
+<script>
 var headerstruct = {name:'header', type:'group', items:[
 	{name:'Version', length:4 , type:'number'},
 	{name:'DataCompressionType', length: 2, type:'number', fpi:true},
@@ -150,3 +158,25 @@ var headerstruct = {name:'header', type:'group', items:[
 		{name:'size', length: 12, type:'number'}
 	]}
 ]};
+
+
+function parse(group){
+	var obj;
+	for( var i = 0; i<group.length; i++){
+		console.log(group[i].name)
+		if(group[i].type == 'group'){
+			parse(group[i].items);
+		}
+	}
+	
+
+	return obj;
+}
+
+parse(headerstruct.items)
+</script>
+
+</head>
+<body>
+</body>
+</html>
