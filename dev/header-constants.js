@@ -1,4 +1,4 @@
-var VersionCodes = [
+var VERSION_CODES = [
 	'MIL-STD-2045-47001',
 	'MIL-STD-2045-47001B',
 	'MIL-STD-2045-47001C',
@@ -17,14 +17,14 @@ var VersionCodes = [
 	'Version Sent Not Implemented'
 ];
 
-var DataCompressionTypeCodes = [
+var DATA_COMPRESSION_TYPE_CODES = [
 	'Unix compress/uncompress',
 	'GZIP',
 	undefined,
 	undefined
 ];
 
-var UMFcodes = [
+var UMF_CODES = [
 	'Link 16',
 	'Binary File',
 	'Variable Message Format (VMF)',
@@ -43,14 +43,14 @@ var UMFcodes = [
 	undefined
 ];
 
-var OperationIndicatorCodes = [
+var OPERATION_INDICATOR_CODES = [
 	'Operation',
 	'Exercise',
 	'Simulation',
 	'Test'
 ];
 
-var MessagePrecedenceCodes = [
+var MESSAGE_PRECEDENCE_CODES = [
 	'Routine',
 	'Priority',
 	'Immediate',
@@ -61,14 +61,14 @@ var MessagePrecedenceCodes = [
 	'Reserved'
 ];
 
-var SecurityClassificationCodes = [
+var SECURITY_CLASSIFICATION_CODES = [
 	'Unclassified',
 	'Confidential',
 	'Secret',
 	'Top secret'
 ];
 
-var RCcodes = [
+var RC_CODES = [
 	undefined,
 	'Machine Receipt',
 	'Cannot Process',
