@@ -6,3 +6,7 @@ The goal of this library is to be able to read/write headers and messages in VMF
 When the library is working as it should it should make it possible to receive/send binary messages directly from the web browser and facilitate interoperability between systems and require a lot less network traffic then sending the same data as JSON.
 
 The library is developed by Måns Beckman, www.spatialillusions.com
+
+-
+
+The library is still under initial development and is not functional yet.
