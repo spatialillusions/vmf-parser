@@ -12,7 +12,7 @@ var headerstruct = {name:'header', type:'group', items:[
 	{name:'InformationAddressGroup', type:'group', gpi:true, gri:true, items: [
 		{name:'Urn', length: 24, type:'number', fpi:true},
 		{name:'UnitName', length: 448, type:'string', fpi:true}
-	],
+	]},
 	{name:'HeaderSize', length: 16, type:'number', fpi:true},
 	{name:'FutureUse1', type:'group', gpi:true, items:[
 		{name:'size', length: 12, type:'number'}
