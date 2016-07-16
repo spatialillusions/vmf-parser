@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<meta name="generator" content="BBEdit 11.5" />
+
+<script>
+var BinaryString = class {
+	constructor(dec,length) {
+		this._binstring = '';
+		if(dec){
+			this._binstring = this.toLength(dec,length);
+		}
+	}
+	add(dec, length){ // Adds information to the binstring
+		this._binstring = this.toLength(dec,length) + this._binstring;
+		return this;
+	}
+	fromByteArray(bytearray){ // We only handle 8bit arrays
+		var bin = '';
+		var bytearray = new Uint8Array(bytearray);
+		var bytes = bytearray.byteLength;
+		for (var i = 0; i<bytes; i++){
+			var octet = bytearray[i].toString(2)
+			bin = Array(8 - octet.length + 1).join(0) + octet + bin;
+		}
+		this._bytearray = bin;
+		return this;
+	}
+	getString() { // Returns the string
+		return this._binstring;
+	}
+	toByteArray(){ // We only handle 8bit arrays
+		var bin = this._binstring;
+		if(bin.length % 8){
+			bin = Array(8 - (bin.length % 8) + 1).join(0) + bin;
+		}
+		var bytes = bin.length / 8;
+		var bytearray = new Uint8Array(bytes);
+		for (var i = 0; i<bytes; i++){
+			var octet = bin.slice(-8);
+			bin = bin.slice(0,-8);
+			bytearray[i] = parseInt(octet,2);
+		}
+		return bytearray;
+	}
+	toLength(dec,length){
+		var bin = dec.toString(2);
+		if(length){bin = Array(length - bin.length + 1).join(0) + bin;}
+		return bin;
+	}
+};
+
+var bin1 = new BinaryString(7,8).add(8,4);
+console.log('Take this Binary String');
+console.log(bin1.getString());
+var binary = bin1.toByteArray();
+bin1.fromByteArray(binary);
+//console.log(bin1.getString())
+</script>
+
+</head>
+<body>
+</body>
+</html>
