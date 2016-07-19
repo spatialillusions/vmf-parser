@@ -6,174 +6,318 @@
 	<meta name="generator" content="BBEdit 11.5" />
 
 <script>
-var headerstruct = {name:'header', type:'group', items:[
-	{name:'Version', length:4 , type:'number'},
-	{name:'DataCompressionType', length: 2, type:'number', fpi:true},
-	{name:'OriginatorAddressGroup', type:'group', gpi:true, items: [
-		{name:'Urn', length: 24, type:'number', fpi:true},
-		{name:'UnitName', length:448, type:'string', fpi:true},
-	]},
-	{name:'RecipientAddressGroup', type:'group', gpi:true, gri:true, items: [
-		{name:'Urn', length: 24, type:'number', fpi:true},
-		{name:'UnitName', length: 448, type:'string', fpi:true}
-	]},
-	{name:'InformationAddressGroup', type:'group', gpi:true, gri:true, items: [
-		{name:'Urn', length: 24, type:'number', fpi:true},
-		{name:'UnitName', length: 448, type:'string', fpi:true}
-	]},
-	{name:'HeaderSize', length: 16, type:'number', fpi:true},
-	{name:'FutureUse1', type:'group', gpi:true, items:[
-		{name:'size', length: 12, type:'number'}
-	]},
-	{name:'FutureUse2', type:'group', gpi:true, items:[
-		{name:'size', length: 12, type:'number'}
-	]},
-	{name:'FutureUse3', type:'group', gpi:true, items:[
-		{name:'size', length: 12, type:'number'}
-	]},
-	{name:'FutureUse4', type:'group', gpi:true, items:[
-		{name:'size', length: 12, type:'number'}
-	]},
-	{name:'FutureUse5', type:'group', gpi:true, items:[
-		{name:'size', length: 12, type:'number'}
-	]},
-	{name:'MessageHandlingGroup', type:'group', gri:true, items: [
-		{name:'Umf', length: 4, type:'number'},
-		{name:'MessageStandardVersion', length: 4, type:'number', fpi:true},
-		{name:'VmfMessageIdentificationGroup', type:'group', gpi:true, items: [
-			{name:'Fad', length: 4, type:'number'},
-			{name:'MessageNumber', length: 7, type:'number'},
-			{name:'MessageSubtype', length: 7, type:'number', fpi:true}	
-		]},
-		{name:'FileName', length: 448, type:'string', fpi:true},
-		{name:'MessageSize', length: 20, type:'number', fpi:true},
-		{name:'OperationIndicator', length: 2, type:'number'},
-		{name:'RetransmitIndicator', length: 1, type:'number'},
-		{name:'MessagePrecedenceCode', length: 3, type:'number'},
-		{name:'SecurityClassification', length: 2, type:'number'},
-		{name:'ControlReleaseMarking', length: 9, type:'number', fpi:true, fri:true},
-		{name:'OriginatorDtg', type:'group', gpi:true, items: [
-			{name:'Year', length: 7, type:'number'},
-			{name:'Month', length: 4, type:'number'},
-			{name:'Day', length: 5, type:'number'},
-			{name:'Hour', length: 5, type:'number'},
-			{name:'Minute', length: 6, type:'number'},
-			{name:'Second', length:6 , type:'number'},
-			{name:'DtgExtension', length: 12, type:'number', fpi:true}
-		]},
-		{name:'PerishabilityDtg', type:'group', gpi:true, items:[
-			{name:'Year', length: 7, type:'number'},
-			{name:'Month', length: 4, type:'number'},
-			{name:'Day', length: 5, type:'number'},
-			{name:'Hour', length: 5, type:'number'},
-			{name:'Minute', length: 6, type:'number'},
-			{name:'Second', length: 6, type:'number'}
-		]},
-		{name:'AcknowledgmentRequestGroup', type:'group', gpi:true, items: [
-			{name:'MachineAcknowledgeRequestIndicator', length: 1, type:'number'},
-			{name:'OperatorAcknowledgeRequestIndicator', length: 1, type:'number'},
-			{name:'OperatorReplyRequestIndicator', length: 1, type:'number'}
-		]},
-		{name:'ResponseDataGroup', type:'group', gpi:true, items: [
-			{name:'Year', length: 7, type:'number'},
-			{name:'Month', length: 4, type:'number'},
-			{name:'Day', length: 5, type:'number'},
-			{name:'Hour', length: 5, type:'number'},
-			{name:'Minute', length: 6, type:'number'},
-			{name:'Second', length: 6, type:'number'},
-			{name:'DtgExtension', length: 12, type:'number', fpi:true},
-			{name:'ResponseToAcknowledgeRequest', length: 3, type:'number'},
-			{name:'CantcoReasonCode', length: 3, type:'number', fpi:true},
-			{name:'CantproReasonCode', length: 6, type:'number', fpi:true},
-			{name:'ReplyAmplification', length: 350, type:'number', fpi:true}
-		]},
-		{name:'ReferenceMessageDataGroup', type:'group', gpi:true, gri:true, items: [
-				{name:'Urn', length: 24, type:'number', fpi:true},
-				{name:'UnitName', length: 448, type:'string', fpi:true},
-				{name:'Year', length: 7, type:'number'},
-				{name:'Month', length: 4, type:'number'},
-				{name:'Day', length: 5, type:'number'},
-				{name:'Hour', length: 5, type:'number'},
-				{name:'Minute', length: 6, type:'number'},
-				{name:'Second', length: 6, type:'number'},
-				{name:'DtgExtension', length: 12, type:'number', fpi:true}
-		]},
-		{name:'FutureUse6', type:'group', gpi:true, items:[
-			{name:'size', length: 12, type:'number'}
-		]},
-		{name:'FutureUse7', type:'group', gpi:true, items:[
-			{name:'size', length: 12, type:'number'}
-		]},
-		{name:'FutureUse8', type:'group', gpi:true, items:[
-			{name:'size', length: 12, type:'number'}
-		]},
-		{name:'FutureUse9', type:'group', gpi:true, items:[
-			{name:'size', length: 12, type:'number'}
-		]},
-		{name:'FutureUse10', type:'group', gpi:true, items:[
-			{name:'size', length: 12, type:'number'}
-		]},
-		{name:'MessageSecurityGroup', type:'group', gpi:true, items: [
-			{name:'SecurityParametersInformation', length: 4, type:'number'},
-			{name:'KeyingMaterialGroup', type:'group', gpi:true, items: [
-				{name:'Length', length: 3, type:'number'},
-				{name:'KeyingMaterialId', length: 64, type:'number'}
-			]},
-			{name:'CryptographicInitializationGroup', type:'group', gpi:true, items: [
-				{name:'Length', length: 4, type:'number'},
-				{name:'CryptographicInitialization', length: 1024, type:'number'}
-			]},
-			{name:'KeyTokenGroup', type:'group', gpi:true, items: [
-				{name:'Length', length: 8, type:'number'},
-				{name:'KeyToken', length: [16384], type:'number', fri:true}
-			]},
-			{name:'AuthenticationAGroup', type:'group', gpi:true, items: [
-				{name:'Length', length: 7, type:'number'},
-				{name:'DigitalSignature', length: 8192, type:'number'}
-			]},
-			{name:'AuthenticationBGroup', type:'group', gpi:true, items: [
-				{name:'Length', length: 7, type:'number'},
-				{name:'DigitalSignature', length: 8192, type:'number'}
-			]},
-			{name:'SignedAcknowledgeRequestIndicator', length: 1, type:'number'},
-			{name:'MessageSecurityPaddingGroup', type:'group', gpi:true, items: [
-				{name:'Length', length: 8, type:'number'},
-				{name:'MessageSecurityPadding', length: 2040, type:'number', fpi:true}
-			]}
-		]}
-	]},
-	{name:'FutureUse11', type:'group', gpi:true, items:[
-		{name:'size', length: 12, type:'number'}
-	]},
-	{name:'FutureUse12', type:'group', gpi:true, items:[
-		{name:'size', length: 12, type:'number'}
-	]},
-	{name:'FutureUse13', type:'group', gpi:true, items:[
-		{name:'size', length: 12, type:'number'}
-	]},
-	{name:'FutureUse14', type:'group', gpi:true, items:[
-		{name:'size', length: 12, type:'number'}
-	]},
-	{name:'FutureUse15', type:'group', gpi:true, items:[
-		{name:'size', length: 12, type:'number'}
-	]}
-]};
-
-
-function parse(group){
-	var obj;
-	for( var i = 0; i<group.length; i++){
-		console.log(group[i].name)
-		if(group[i].type == 'group'){
-			parse(group[i].items);
-		}
-	}
-	
-
-	return obj;
+'use strict';
+/*
+* Create a sample byte array
+*/
+var bin = '00000000000000000000000110011011101101101111111000010000010010000100010001100011111110001000000000000000000000000000000001110111111111000001101010010010011001110101010110000000000000000110011111100011';
+if(bin.length % 8){
+	bin = Array(8 - (bin.length % 8) + 1).join(0) + bin;
+}
+var bytes = bin.length / 8;
+var bytearray = new Uint8Array(bytes);
+for (var i = 0; i<bytes; i++){
+	var octet = bin.slice(-8);
+	bin = bin.slice(0,-8);
+	bytearray[i] = parseInt(octet,2);
 }
 
-parse(headerstruct.items)
+/*
+* This is the structure for the header message
+*/
+
+
+/*
+var vmf = {};
+
+vmf.parse = function (message, bytearray){
+	
+	bytearray = bytearray.subarray(2)
+	console.log(bytearray.length)
+}
+
+
+
+
+console.log(bytearray.length)
+//vmf.parse('',bytearray);
+
+
+Uint8Array.prototype.parse = function(){
+	console.log('prototype function')
+	console.log(this)
+	return this.subarray(2);
+}
+
+bytearray.parse();
+*/
+
+
+//console.log(bytearray.length)
+
+
+
+var VMF = class {
+	constructor(binary) {
+		this.binary = new Uint8Array(binary);
+		this.header, this.headerLength,this.message, this.messageLength;
+	}
+	getHeader(){
+		this.headerLength = 0;
+		var headermessage = {name:'header', type:'group', items:[
+			{name:'Version', length:4 , type:'number'},
+			{name:'DataCompressionType', length: 2, type:'number', fpi:true},
+			{name:'OriginatorAddressGroup', type:'group', gpi:true, items: [
+				{name:'Urn', length: 24, type:'number', fpi:true},
+				{name:'UnitName', length:448, type:'string', fpi:true},
+			]},
+			{name:'RecipientAddressGroup', type:'group', gpi:true, gri:true, items: [
+				{name:'Urn', length: 24, type:'number', fpi:true},
+				{name:'UnitName', length: 448, type:'string', fpi:true}
+			]},
+			{name:'InformationAddressGroup', type:'group', gpi:true, gri:true, items: [
+				{name:'Urn', length: 24, type:'number', fpi:true},
+				{name:'UnitName', length: 448, type:'string', fpi:true}
+			]},
+			{name:'HeaderSize', length: 16, type:'number', fpi:true},
+			{name:'FutureUse1', type:'group', gpi:true, items:[
+				{name:'size', length: 12, type:'number'}
+			]},
+			{name:'FutureUse2', type:'group', gpi:true, items:[
+				{name:'size', length: 12, type:'number'}
+			]},
+			{name:'FutureUse3', type:'group', gpi:true, items:[
+				{name:'size', length: 12, type:'number'}
+			]},
+			{name:'FutureUse4', type:'group', gpi:true, items:[
+				{name:'size', length: 12, type:'number'}
+			]},
+			{name:'FutureUse5', type:'group', gpi:true, items:[
+				{name:'size', length: 12, type:'number'}
+			]},
+			{name:'MessageHandlingGroup', type:'group', gri:true, items: [
+				{name:'Umf', length: 4, type:'number'},
+				{name:'MessageStandardVersion', length: 4, type:'number', fpi:true},
+				{name:'VmfMessageIdentificationGroup', type:'group', gpi:true, items: [
+					{name:'Fad', length: 4, type:'number'},
+					{name:'MessageNumber', length: 7, type:'number'},
+					{name:'MessageSubtype', length: 7, type:'number', fpi:true}	
+				]},
+				{name:'FileName', length: 448, type:'string', fpi:true},
+				{name:'MessageSize', length: 20, type:'number', fpi:true},
+				{name:'OperationIndicator', length: 2, type:'number'},
+				{name:'RetransmitIndicator', length: 1, type:'number'},
+				{name:'MessagePrecedenceCode', length: 3, type:'number'},
+				{name:'SecurityClassification', length: 2, type:'number'},
+				{name:'ControlReleaseMarking', length: 9, type:'number', fpi:true, fri:true},
+				{name:'OriginatorDtg', type:'group', gpi:true, items: [
+					{name:'Year', length: 7, type:'number'},
+					{name:'Month', length: 4, type:'number'},
+					{name:'Day', length: 5, type:'number'},
+					{name:'Hour', length: 5, type:'number'},
+					{name:'Minute', length: 6, type:'number'},
+					{name:'Second', length:6 , type:'number'},
+					{name:'DtgExtension', length: 12, type:'number', fpi:true}
+				]},
+				{name:'PerishabilityDtg', type:'group', gpi:true, items:[
+					{name:'Year', length: 7, type:'number'},
+					{name:'Month', length: 4, type:'number'},
+					{name:'Day', length: 5, type:'number'},
+					{name:'Hour', length: 5, type:'number'},
+					{name:'Minute', length: 6, type:'number'},
+					{name:'Second', length: 6, type:'number'}
+				]},
+				{name:'AcknowledgmentRequestGroup', type:'group', gpi:true, items: [
+					{name:'MachineAcknowledgeRequestIndicator', length: 1, type:'number'},
+					{name:'OperatorAcknowledgeRequestIndicator', length: 1, type:'number'},
+					{name:'OperatorReplyRequestIndicator', length: 1, type:'number'}
+				]},
+				{name:'ResponseDataGroup', type:'group', gpi:true, items: [
+					{name:'Year', length: 7, type:'number'},
+					{name:'Month', length: 4, type:'number'},
+					{name:'Day', length: 5, type:'number'},
+					{name:'Hour', length: 5, type:'number'},
+					{name:'Minute', length: 6, type:'number'},
+					{name:'Second', length: 6, type:'number'},
+					{name:'DtgExtension', length: 12, type:'number', fpi:true},
+					{name:'ResponseToAcknowledgeRequest', length: 3, type:'number'},
+					{name:'CantcoReasonCode', length: 3, type:'number', fpi:true},
+					{name:'CantproReasonCode', length: 6, type:'number', fpi:true},
+					{name:'ReplyAmplification', length: 350, type:'number', fpi:true}
+				]},
+				{name:'ReferenceMessageDataGroup', type:'group', gpi:true, gri:true, items: [
+						{name:'Urn', length: 24, type:'number', fpi:true},
+						{name:'UnitName', length: 448, type:'string', fpi:true},
+						{name:'Year', length: 7, type:'number'},
+						{name:'Month', length: 4, type:'number'},
+						{name:'Day', length: 5, type:'number'},
+						{name:'Hour', length: 5, type:'number'},
+						{name:'Minute', length: 6, type:'number'},
+						{name:'Second', length: 6, type:'number'},
+						{name:'DtgExtension', length: 12, type:'number', fpi:true}
+				]},
+				{name:'FutureUse6', type:'group', gpi:true, items:[
+					{name:'size', length: 12, type:'number'}
+				]},
+				{name:'FutureUse7', type:'group', gpi:true, items:[
+					{name:'size', length: 12, type:'number'}
+				]},
+				{name:'FutureUse8', type:'group', gpi:true, items:[
+					{name:'size', length: 12, type:'number'}
+				]},
+				{name:'FutureUse9', type:'group', gpi:true, items:[
+					{name:'size', length: 12, type:'number'}
+				]},
+				{name:'FutureUse10', type:'group', gpi:true, items:[
+					{name:'size', length: 12, type:'number'}
+				]},
+				{name:'MessageSecurityGroup', type:'group', gpi:true, items: [
+					{name:'SecurityParametersInformation', length: 4, type:'number'},
+					{name:'KeyingMaterialGroup', type:'group', gpi:true, items: [
+						{name:'Length', length: 3, type:'number'},
+						{name:'KeyingMaterialId', length: 64, type:'number'}
+					]},
+					{name:'CryptographicInitializationGroup', type:'group', gpi:true, items: [
+						{name:'Length', length: 4, type:'number'},
+						{name:'CryptographicInitialization', length: 1024, type:'number'}
+					]},
+					{name:'KeyTokenGroup', type:'group', gpi:true, items: [
+						{name:'Length', length: 8, type:'number'},
+						{name:'KeyToken', length: [16384], type:'number', fri:true}
+					]},
+					{name:'AuthenticationAGroup', type:'group', gpi:true, items: [
+						{name:'Length', length: 7, type:'number'},
+						{name:'DigitalSignature', length: 8192, type:'number'}
+					]},
+					{name:'AuthenticationBGroup', type:'group', gpi:true, items: [
+						{name:'Length', length: 7, type:'number'},
+						{name:'DigitalSignature', length: 8192, type:'number'}
+					]},
+					{name:'SignedAcknowledgeRequestIndicator', length: 1, type:'number'},
+					{name:'MessageSecurityPaddingGroup', type:'group', gpi:true, items: [
+						{name:'Length', length: 8, type:'number'},
+						{name:'MessageSecurityPadding', length: 2040, type:'number', fpi:true}
+					]}
+				]}
+			]},
+			{name:'FutureUse11', type:'group', gpi:true, items:[
+				{name:'size', length: 12, type:'number'}
+			]},
+			{name:'FutureUse12', type:'group', gpi:true, items:[
+				{name:'size', length: 12, type:'number'}
+			]},
+			{name:'FutureUse13', type:'group', gpi:true, items:[
+				{name:'size', length: 12, type:'number'}
+			]},
+			{name:'FutureUse14', type:'group', gpi:true, items:[
+				{name:'size', length: 12, type:'number'}
+			]},
+			{name:'FutureUse15', type:'group', gpi:true, items:[
+				{name:'size', length: 12, type:'number'}
+			]}
+			]};
+		var message = this.getMessage(headermessage);
+		this.headerLength = this.messageLength;
+		return message;
+	}
+	getMessage(message){
+		var readByte = this.headerLength || 0;
+		var bitString = '';
+		function fpiCheck(field){
+			if(field.fpi){
+				console.log('FPI')
+				if(parseInt(readBits(1)))return friCheck(field);
+			}else{
+				return friCheck(field);
+			}
+		}
+		function friCheck(field){
+			if(field.fri){
+				console.log('FRI')
+				readBits(1) //TODO fix so we do repeating
+				return getField(field);
+			}else{
+				return getField(field);
+			}
+		}
+		function readBits(bitsToRead){
+			while(bitString.length < bitsToRead){
+				readData();
+			}
+			var bits = bitString.slice(-bitsToRead);
+			bitString = bitString.slice(0,-bitsToRead);
+			return bits;
+		}
+		function readData(){
+			//console.log('=== get next octet')
+			var octet = bytearray[readByte].toString(2)
+			bitString = Array(8 - octet.length + 1).join(0) + octet + bitString;
+			readByte++;
+		}
+		function getField(field){
+			var data;
+			if(field.type == 'string'){
+				var bitsRead = 0;
+				data = '';
+				while (bitsRead < field.length){
+					var bits = readBits(7);
+					if(bits == '1111111')break;
+					data += String.fromCharCode(parseInt(bits,2));
+				}
+			}else{
+				data = parseInt(readBits(field.length),2);
+			}
+			console.log(field.name + ' - ' + field.length + 'bits - ' + field.type + ' Value: '+ data);
+			return data;
+		}
+		function gpiCheck(group){
+			if(group.gpi){
+				console.log('GPI')
+				if(parseInt(readBits(1)))return griCheck(group);
+			}else{
+				return griCheck(group);
+			}
+		}
+		function griCheck(group){
+			if(group.gri){
+				console.log('GRI')
+				console.log(group.name)
+				readBits(1) //TODO fix so we do repeating
+				return parse(group.items);
+			}else{
+				console.log(group.name)
+				return parse(group.items);
+			}
+		}
+
+
+		function parse(message){
+			var obj = {};
+			for( var i = 0; i<message.length; i++){
+				if(message[i].type == 'group'){
+					obj[message[i].name] = gpiCheck(message[i]);
+				}else{
+					obj[message[i].name] = fpiCheck(message[i]);
+				}
+			}
+			return obj;
+		}
+		
+		var message = parse(message.items);
+		this.messageLength = readByte;
+		return message;
+	}
+
+}
+
+var message = new VMF(bytearray).getHeader();
+
+
+
+
+//parse(headerstruct.items)
+
+
 </script>
 
 </head>
