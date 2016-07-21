@@ -263,6 +263,7 @@ var VMF = class {
 					var bits = readBits(7);
 					if(bits == '1111111')break;
 					data += String.fromCharCode(parseInt(bits,2));
+					bitsRead += 7;
 				}
 			}else{
 				data = parseInt(readBits(field.length),2);
