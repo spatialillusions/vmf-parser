@@ -1,30 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8" />
-	<title></title>
-	<meta name="generator" content="BBEdit 11.5" />
-
-<script>
 'use strict';
-/*
-* Create a sample byte array
-*/
-//                 000000000000000110011011101101101111111000010000010010000100010001100011111110001000000000000000000000000000000001110111111111000001101010010010011001110101010110000000000000000110011111100011
-var bin = '0000000000000000000000110011011101101101111111000010000010010000100010001100011111110001000000000000000000000000000000001110111111111000001101010010010011001110101010110000000000000000110011111100011';
-var orgBin = bin;
-if(bin.length % 8){
-	bin = Array(8 - (bin.length % 8) + 1).join(0) + bin;
-}
-var bytes = bin.length / 8;
-var bytearray = new Uint8Array(bytes);
-for (var i = 0; i<bytes; i++){
-	var octet = bin.slice(-8);
-	bin = bin.slice(0,-8);
-	bytearray[i] = parseInt(octet,2);
-}
-
-
 var VMF = class {
 	constructor(binary) {
 		this.binary = new Uint8Array(binary);
@@ -221,7 +195,6 @@ var VMF = class {
 			return bits;
 		}
 		function readData(){
-			//console.log('=== get next octet')
 			var octet = bytearray[readByte].toString(2)
 			bitString = Array(8 - octet.length + 1).join(0) + octet + bitString;
 			readByte++;
@@ -240,7 +213,7 @@ var VMF = class {
 			}else{
 				data = parseInt(readBits(field.length),2);
 			}
-			console.log(field.name + ' - ' + field.length + 'bits - ' + field.type + ' Value: '+ data);
+			//console.log(field.name + ' - ' + field.length + 'bits - ' + field.type + ' Value: '+ data);
 			return data;
 		}
 		function gpiCheck(group){
@@ -264,12 +237,11 @@ var VMF = class {
 			}
 		}
 
-
 		function read(messagetype){
 			var obj = {};
 			for( var i = 0; i<messagetype.length; i++){
 				if(messagetype[i].type == 'group'){
-					console.log('GROUP: ' +messagetype[i].name)
+					//console.log('GROUP: ' +messagetype[i].name)
 					obj[messagetype[i].name] = gpiCheck(messagetype[i]);
 				}else{
 					obj[messagetype[i].name] = fpiCheck(messagetype[i]);
@@ -279,6 +251,7 @@ var VMF = class {
 		}
 		
 		var message = read(messagetype.items);
+		this.message = message;
 		this.messageLength = readByte;
 		return message;
 	}
@@ -286,22 +259,20 @@ var VMF = class {
 		this.binary = new Uint8Array(binary);
 		return this;
 	}
-	setMessage(message){
-		this.message = message;
-		return this;
-	}
 	setHeader(header){
 		this.header = header;
 		return this;
 	}
-	writeHeaderToBinary(){
-		var header = this.writeMessageToBinary(this._headermessage);
-		//this.headerLength = this.messageLength;
+	setMessage(message){
+		this.message = message;
 		return this;
 	}
+	writeHeaderToBinary(){
+		var header = this.writeMessageToBinary(this._headermessage);
+		this.headerLength = this.messageLength;
+		return header;
+	}
 	writeMessageToBinary(messagetype){
-		//var readByte = this.headerLength || 0;
-		var bitString = '';
 		function fpiCheck(obj, field){
 			if(field.fpi){
 				var fpi;
@@ -370,7 +341,7 @@ var VMF = class {
 				if(length){bin = Array(length - bin.length + 1).join(0) + bin;}
 				return bin;
 			}
-			console.log(field.name + ' - ' + field.length + 'bits - ' + field.type + ' Value: '+ obj);
+			//console.log(field.name + ' - ' + field.length + 'bits - ' + field.type + ' Value: '+ obj);
 			if(typeof obj != 'undefined'){
 				if(field.type == 'string'){
 					var charsRead = 0;
@@ -391,43 +362,39 @@ var VMF = class {
 				return '';
 			}
 		}
-
+		function toByteArray(bin){
+			if(bin.length % 8){
+				bin = Array(8 - (bin.length % 8) + 1).join(0) + bin;
+			}
+			var bytes = bin.length / 8;
+			var bytearray = new Uint8Array(bytes);
+			for (var i = 0; i<bytes; i++){
+				var octet = bin.substring(bin.length-(8*i)-8,bin.length-(8*i));
+				bytearray[i] = parseInt(octet,2);
+			}
+			return bytearray;
+		}
 		function write(message, messagetype){
 			var binString = '';
 			for( var i = 0; i<messagetype.length; i++){
 				if(messagetype[i].type == 'group'){
-					binString = gpiCheck(message[messagetype[i].name],messagetype[i]) + binString;
+					var bits = gpiCheck(message[messagetype[i].name],messagetype[i]);
+					binString = bits + binString;
+				
 				}else{
-					binString = fpiCheck(message[messagetype[i].name],messagetype[i]) + binString;
+					var bits = fpiCheck(message[messagetype[i].name],messagetype[i]);
+					binString = bits + binString;
 				}
 			}
 			return binString;
 		}
 		var message;
 		if(this._headermessage == messagetype){
-			message = write(this.header, messagetype.items);
+			message = toByteArray(write(this.header, messagetype.items));
 		}else{
-			message = write(this.message, messagetype.items);
+			message = toByteArray(write(this.message, messagetype.items));
 		}
-		console.log(message)
-
-		//this.messageLength = readByte;
+		this.messageLength = message.length;
 		return message;
 	}
 }
-
-var message = new VMF(bytearray)//
-message.readHeader();
-console.log('===========================================================================')
-message.writeHeaderToBinary();
-console.log(orgBin)
-
-//parse(headerstruct.items)
-
-
-</script>
-
-</head>
-<body>
-</body>
-</html>

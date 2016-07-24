@@ -2,65 +2,138 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title></title>
-	<meta name="generator" content="BBEdit 11.5" />
-
-<script>
-var BinaryString = class {
-	constructor(dec,length) {
-		this._binstring = '';
-		if(dec){
-			this._binstring = this.toLength(dec,length);
-		}
-	}
-	add(dec, length){ // Adds information to the binstring
-		this._binstring = this.toLength(dec,length) + this._binstring;
-		return this;
-	}
-	fromByteArray(bytearray){ // We only handle 8bit arrays
-		var bin = '';
-		var bytearray = new Uint8Array(bytearray);
-		var bytes = bytearray.byteLength;
-		for (var i = 0; i<bytes; i++){
-			var octet = bytearray[i].toString(2)
-			bin = Array(8 - octet.length + 1).join(0) + octet + bin;
-		}
-		this._bytearray = bin;
-		return this;
-	}
-	getString() { // Returns the string
-		return this._binstring;
-	}
-	toByteArray(){ // We only handle 8bit arrays
-		var bin = this._binstring;
-		if(bin.length % 8){
-			bin = Array(8 - (bin.length % 8) + 1).join(0) + bin;
-		}
-		var bytes = bin.length / 8;
-		var bytearray = new Uint8Array(bytes);
-		for (var i = 0; i<bytes; i++){
-			var octet = bin.slice(-8);
-			bin = bin.slice(0,-8);
-			bytearray[i] = parseInt(octet,2);
-		}
-		return bytearray;
-	}
-	toLength(dec,length){
-		var bin = dec.toString(2);
-		if(length){bin = Array(length - bin.length + 1).join(0) + bin;}
-		return bin;
-	}
-};
-
-var bin1 = new BinaryString(7,8).add(8,4);
-console.log('Take this Binary String');
-console.log(bin1.getString());
-var binary = bin1.toByteArray();
-bin1.fromByteArray(binary);
-//console.log(bin1.getString())
-</script>
-
+	<title>Tests of VMF parser</title>
+	<script src="../dist/vmf-parser.js">
+	</script>
 </head>
 <body>
+<h1>Tests</h1>
+<script>
+'use strict';
+document.write('<h2>Example binary string</h2>');
+document.write('<h3>TABLE B-I. Example construction of application layer PDU</h3>There is an error of assignment of bit 3 in byte 22 in the standard, and this is why this is one octet shorter than the one listed in the standard.<br>')
+var header = '000000000000000110011011101101101111111000010000010010000100010001100011111110001000000000000000000000000000000001110111111111000001101010010010011001110101010110000000000000000110011111100011';
+document.write('<code>')
+for (var i = 0; i<(header.length / 8); i++){
+	var octet = header.substring(header.length-(8*i)-8,header.length-(8*i));
+	document.write(octet + ' ' );
+}
+document.write('</code>')
+
+document.write('<h3>TABLE B-II. Example construction of fictitious VMF message data</h3>')
+var message = '0000000010011010010100000111100010100000';
+document.write('<code>')
+for (var i = 0; i<(message.length / 8); i++){
+	var octet = message.substring(message.length-(8*i)-8,message.length-(8*i));
+	document.write(octet + ' ' );
+}
+document.write('</code>')
+
+document.write('<h3>Full binary string</h3>')
+var bin = message + header;
+var orgBin = bin;
+document.write('<code>')
+for (var i = 0; i<(bin.length / 8); i++){
+	var octet = bin.substring(bin.length-(8*i)-8,bin.length-(8*i));
+	document.write(octet + ' ' );
+}
+document.write('</code>')
+
+/*
+*	Converting sample to binay
+*/
+
+var bytes = bin.length / 8;
+var bytearray = new Uint8Array(bytes);
+for (var i = 0; i<bytes; i++){
+	var octet = bin.slice(-8);
+	bin = bin.slice(0,-8);
+	bytearray[i] = parseInt(octet,2);
+}
+
+
+
+
+/*
+*	Cerating a new VMF from the binary
+*/
+var message = new VMF(bytearray)
+
+/*
+*	Reading header
+*/
+var message_header = message.readHeader();
+
+document.write('<h2>Reading header</h2>');
+document.write('<code>')
+document.write(JSON.stringify(message_header));
+document.write('</code>')
+/*
+*	Reading message
+*/
+
+var messagetype = {name:'example', type:'group', items:[
+	{name:'Field 1', length:5, type:'number'},
+	{name:'Field 2 (ASCII CHAR)', length:7, type:'string', fpi:true},
+	{name:'Field 3', type:'group', gpi:true, items:[ // This is one field in the standard but we treat it as two in this object
+		{name:'Group 1 (ASCII CHAR)', length:7, type:'string'},
+		{name:'Group 2', length:14, type:'number'}
+	]},
+	{name:'Field 4', length:21, type:'string', fpi:true},
+	{name:'Group 1', type:'group', gpi:true, items:[ // This is one field in the standard but we treat it as two in this object
+		{name:'Field 5', length:5, type:'number'},
+		{name:'Field 6', length:6, type:'number'},
+		{name:'Field 7', length:6, type:'number'},
+		{name:'Field 8', length:7, type:'number', fpi:true}
+	]},	
+	{name:'Group 2', type:'group', gpi:true, items:[ // This is one field in the standard but we treat it as two in this object
+		{name:'Field 9', length:24, type:'number'},
+		{name:'Field 10', length:32, type:'number'},
+		{name:'Field 11', length:5, type:'number'},
+		{name:'Field 12', length:5, type:'number'},
+		{name:'Field 13', length:6, type:'number'},
+		{name:'Field 14', length:6, type:'number'}
+	]}	
+]};
+var message_message = message.readMessage(messagetype);
+
+document.write('<h2>Reading message</h2>');
+document.write('<code>')
+document.write(JSON.stringify(message_message));
+document.write('</code>')
+
+/*
+*	Converting header to binary
+*/
+
+document.write('<h2>Writing header back to binary</h2>');
+document.write('<code>')
+var message_binaryheader = message.writeHeaderToBinary();
+for (var i = 0; i<message_binaryheader.length; i++){
+	var octet = message_binaryheader[i];
+	octet = octet.toString(2);
+	octet = Array(8 - octet.length + 1).join(0) + octet
+	document.write(octet + ' ')
+}
+document.write('</code>')
+
+/*
+*	Converting header to binary
+*/
+
+document.write('<h2>Writing message back to binary</h2>');
+document.write('<code>')
+var message_binaryheader = message.writeMessageToBinary(messagetype);
+for (var i = 0; i<message_binaryheader.length; i++){
+	var octet = message_binaryheader[i];
+	octet = octet.toString(2);
+	octet = Array(8 - octet.length + 1).join(0) + octet
+	document.write(octet + ' ')
+}
+document.write('</code>')
+
+</script>
+
+
 </body>
 </html>
