@@ -5,6 +5,8 @@ Library for parsing and writing Variable Message Format (VMF) in JavaScript.
 
 This library is able to read and write to Variable Message Format using pure javascript. Header information according to **MIL-STD-2045 47001D** can be read using built in functionality and messages according to **MIL-STD-6017** can be read if message type objects are provided.
 
+To read and write coordinates in messages, you can use my library [latlng-uint](https://github.com/spatialillusions/latlng-uint).
+
 ### Limitations
 
 Since **MIL-STD-6017** currently is under limited distribution message type objects for messages described in this standard cannot be provided with the library, they are however quite easy to create using the header message type as a template.
