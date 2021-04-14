@@ -1,0 +1,130 @@
+<!DOCTYPE html>.
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>VMF Parser – Location Report</title>
+	<script src="../dist/vmf-parser.js">
+	</script>
+</head>
+<body>
+<h1>Loction Report</h1>
+<script>
+	document.write('<h2>Construction of a Message Type Object For Location Report</h2>');
+	
+	// Lets create our location report
+	
+	var ORIGINATING_ENVIRONMENTS = ["Land","Air","Sea","Space"]
+	
+	var SECURITY_CLASSIFICATION_CODES = ['Unclassified','Confidential','Secret','Top secret'];
+	
+	var messageTypeLocRep = {
+        name:"LocationReport",	// Eventually this will become a MsgTypId 
+                                // corresponding to an enum so message handling systems 
+                                // know how to decode the message 
+		type:"group",
+		items:[		
+			{name:'trackNumber', length:40, type:'string', fpi:true},	// Track Number
+			{name:'posAccuracy', length:7, type:'number'}, 				// Positional Accuracy
+			{name:'posRep', type:'group', gpi:true, items:[ 			// Hold Location fields (use latlng-uint)
+				{name:'posLat', length:32, type:'number'},
+				{name:'posLon', length:32, type:'number'}
+			]},
+			{name:'origEnv', length:2, type:'number'},	                 // Originating Environment
+		]};
+		
+		document.write('<code>')
+		document.write(JSON.stringify(messageTypeLocRep));
+		document.write('</code>')
+		
+		document.write('<h2>Construction of a Participant Location Message Object Using This Type</h2>');
+		
+		var msgLocRep = {"trackNumber":"TN2001", "posAccuracy":100,"posRep":{"posLat":6702032,"posLon":97867},"origEnv":1};
+		
+		document.write('<code>')
+		document.write(JSON.stringify(msgLocRep));
+		document.write('</code>')
+		
+		document.write('<h2>Set Message and Convert To Binary</h2>');
+        
+        // Header is bin from test.html
+		var header = '000000000000000110011011101101101111111000010000010010000100010001100011111110001000000000000000000000000000000001110111111111000001101010010010011001110101010110000000000000000110011111100011';
+		var bin = header;
+
+
+		// Convert Header to UInt8Array
+		var bytes = header.length / 8;
+		var bytearray = new Uint8Array(bytes);
+		for (var i = 0; i<bytes; i++){
+			var octet = bin.slice(-8);
+			bin = bin.slice(0,-8);
+			bytearray[i] = parseInt(octet,2);
+		}
+		
+		var msg = new VMF();
+		
+		// Set Message
+		msg.setMessage(msgLocRep);
+		
+		// Set Header
+		msg.setHeader(header);
+		
+		// Write Message Binary
+		var bin1 = msg.writeMessageToBinary(messageTypeLocRep);
+		
+		document.write('<figure class="code"><code class="binary">')
+
+		for (var i = 0; i<bin1.length; i++){
+			var octet = bin1[i];
+			octet = octet.toString(2);
+			octet = Array(8 - octet.length + 1).join(0) + octet
+			document.write(octet + ' ')
+		}
+		document.write('</code></figure>')
+		
+		// Merge Header and Message
+		var mergedBinLength = bytearray.byteLength + bin1.byteLength;
+		var mergedBins = new Uint8Array(mergedBinLength);;
+		mergedBins.set(bytearray); // header binary
+		mergedBins.set(bin1, bytearray.byteLength); //message binary
+		console.log(mergedBins);
+		// Update Message Object with combined binaries of header and message
+		 msg.setBinary(mergedBins)
+		
+		console.log(msg)
+		
+		
+		var message_header = msg.readHeader();
+		
+		document.write('<h2>Reading header</h2>');
+		document.write('<figure class="code"><code>')
+		document.write(JSON.stringify(message_header));
+		document.write('</code></figure>')
+
+		
+		document.write('<figure class="code"><code>')
+
+		for (var i = 0; i<bin.length; i++){
+			var octet = bin[i];
+			octet = octet.toString(2);
+			octet = Array(8 - octet.length + 1).join(0) + octet
+			document.write(octet + ' ')
+		}
+		document.write('</code></figure>')
+		
+		document.write('<h2>Verify Message</h2>');
+		
+		var readback = msg.readMessage(messageTypeLocRep);
+
+	 	document.write('<figure class="code"><code>')
+	 	document.write(JSON.stringify(readback));
+	 	document.write('</code></figure>')
+		
+		// document.write('<h3>OrigEnv: ' + ORIGINATING_ENVIRONMENTS[readback["origEnv"]] + '<h3>')
+		
+		document.write('<h2>Message Size: '+ bin1.byteLength +' Bytes </h2>');
+		document.write('<h2>Header Size: '+ bytearray.byteLength +' Bytes </h2>');
+		document.write('<h2>Total Payload Size: '+ mergedBins.byteLength +' Bytes </h2>');
+	
+</script>
+</body>
+</html>
