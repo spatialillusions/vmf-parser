@@ -196,6 +196,7 @@ var VMF = class {
 		}
 		function readData(){
 			var octet = bytearray[readByte].toString(2)
+			//var octet = selfBinary[readByte].toString(2)
 			bitString = Array(8 - octet.length + 1).join(0) + octet + bitString;
 			readByte++;
 		}
@@ -249,7 +250,7 @@ var VMF = class {
 			}
 			return obj;
 		}
-		
+		var selfBinary = this.binary;
 		var message = read(messagetype.items);
 		this.message = message;
 		this.messageLength = readByte;
